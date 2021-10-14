@@ -37,7 +37,7 @@ namespace RoadNetwork
         public GraphDTO()
         {
             Vercites = new Dictionary<int, string>();
-            AdjacencyMatrix = LoadAdjacencyMatrix(@"G:\Projekty\RoadNetwork\Data\Distances.txt");
+            AdjacencyMatrix = LoadAdjacencyMatrix(@"G:\Projekty\Inzynierka\RoadNetwork\Data\Distances.txt");
         }
     }
 }
