@@ -1,0 +1,30 @@
+﻿@model List<GraphRouting.Alghoritms.DijkstraDTO>
+@{
+    ViewData["Title1"] = "Vertex";
+    ViewData["Title2"] = "Distance";
+    ViewData["Title3"] = "Path";
+}
+
+<div class="text-center">
+
+    @for (int i = -1; i < Model.Count(); i++)
+    {
+    <div class="row">
+        @if (i < 0)
+        {
+            <div class="col-1">@ViewData["Title1"]</div>
+            <div class="col-1">@ViewData["Title2"]</div>
+            <div class="col-sm">@ViewData["Title3"]</div>
+
+        }
+        else
+        {
+            var item = Model[i];
+            <div class="col-1">@item.StartVertex -> @item.VertexIndex</div>
+            <div class="col-1">@item.Distances</div>
+            <div class="col-sm">@item.Path</div>
+        }
+
+    </div>
+    }
+</div>
