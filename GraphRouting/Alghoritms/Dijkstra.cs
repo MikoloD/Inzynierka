@@ -147,11 +147,6 @@ namespace GraphRouting
             // been processed
             if (currentVertex == NO_PARENT)
             {
-                if (!String.IsNullOrEmpty(Path))
-                {
-                    //dijkstraDTO.Paths.Add(Path);
-                    //DijkstraDTOs.Add(dijkstraDTO);
-                }
                 return;
             }
             printPath(dijkstraDTO,parents[currentVertex], parents);

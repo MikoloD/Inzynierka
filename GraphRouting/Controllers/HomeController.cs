@@ -13,21 +13,15 @@ namespace GraphRouting.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly GraphDTO _graphDTO;
 
-        public HomeController(ILogger<HomeController> logger,GraphDTO graphDTO)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _graphDTO = graphDTO;
         }
 
         public IActionResult Index()
         {
-            Dijkstra dijkstra = new Dijkstra(_graphDTO);
-            //for debug purposes 0
-            int startingVertex = 0;
-            dijkstra.Run(_graphDTO.AdjacencyMatrix, startingVertex);
-            return View(dijkstra.DijkstraDTOs);
+            return View();
         }
 
         public IActionResult Privacy()
