@@ -127,10 +127,12 @@ namespace GraphRouting
             {
                 if (vertexIndex != startVertex)
                 {
-                    DijkstraDTO dijkstraDTO = new DijkstraDTO();
-                    dijkstraDTO.StartVertex = startVertex;
-                    dijkstraDTO.VertexIndex = vertexIndex;
-                    dijkstraDTO.Distances = distances[vertexIndex];
+                    DijkstraDTO dijkstraDTO = new DijkstraDTO
+                    {
+                        StartVertex = startVertex,
+                        VertexIndex = vertexIndex,
+                        Distances = distances[vertexIndex]
+                    };
                     printPath(dijkstraDTO,vertexIndex, parents);
                 }
             }
@@ -143,15 +145,13 @@ namespace GraphRouting
                                     int[] parents)
         {
             string Path = string.Empty;
-            // Base case : Source node has
-            // been processed
             if (currentVertex == NO_PARENT)
             {
                 return;
             }
             printPath(dijkstraDTO,parents[currentVertex], parents);
-            string nodeName = _graphDTO.Vercites.First(x => x.Key == currentVertex).Value;
-            dijkstraDTO.Path += (nodeName + " ");
+            string nodeName = _graphDTO.Vercites.FirstOrDefault(x => x.Key == currentVertex).Value;
+            if(nodeName != default) dijkstraDTO.Path.Add(nodeName);
             if (dijkstraDTO.VertexIndex == currentVertex) DijkstraDTOs.Add(dijkstraDTO);
         }
     }

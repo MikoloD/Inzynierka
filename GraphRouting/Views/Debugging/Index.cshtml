@@ -21,7 +21,12 @@
                 var item = Model[i];
                 <div class="col-1">@item.StartVertex -> @item.VertexIndex</div>
                 <div class="col-1">@item.Distances</div>
-                <div class="col-sm">@item.Path</div>
+                <div class="col-sm">
+                    @foreach (var elem in item.Path)
+                    {
+                        @elem.ToString();
+                    }
+                </div>
             }
         </div>
     }

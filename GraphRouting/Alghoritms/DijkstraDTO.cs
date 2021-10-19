@@ -10,6 +10,6 @@ namespace GraphRouting.Alghoritms
         public int StartVertex { get; set; }
         public int VertexIndex { get; set; }
         public int Distances { get; set; }
-        public string Path { get; set; }
+        public List<string> Path { get; set; } = new List<string>();
     }
 }

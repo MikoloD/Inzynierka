@@ -1,18 +1,47 @@
-﻿@{
+﻿@model GraphRouting.Alghoritms.DijkstraDTO
+@{
     ViewData["Title"] = "Home Page";
+    SelectList ListStart = new SelectList(ViewBag.Cities, "Key", "Value");
+    SelectList ListEnd = new SelectList(ViewBag.Cities, "Key", "Value");
 }
-
-<div id="map" style="width: 100%;height: calc(100vh - 75px);position: relative;overflow: hidden !important;" ></div>
-<script>
-
-    var map = L.map('map').setView([57.74, 11.94], 10);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    L.Routing.control({
-        waypoints: [
-            L.latLng(56.74, 11.94),
-            L.latLng(57.6792, 11.949)
-        ]
-    }).addTo(map);
-</script>
+<div class="row" style="width: 100%;height: calc(100vh - 75px);position: relative;overflow: hidden !important;">
+    <div class="col-sm" id="map">
+        <script>
+            var lat = [];
+            var lon = [];
+            var map = L.map('map').setView([52.11, 19.21], 6);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            @if (Model != null)
+            {
+             @:  L.Routing.control({
+             @:  waypoints:
+             @:       [L.latLng(56.74, 11.94),
+             @:       L.latLng(57.6792, 11.949)]
+             @:}).addTo(map);
+            }
+        </script>
+    </div>
+    <div class="col-2">
+        <form asp-action="Index">
+            <div class="form-inline my-3">
+                @*<label asp-for="StartVertex" class="control-label mr-5 ml-2 my-3"></label>*@
+                <select asp-items="@(ListStart)"
+                        class="form-control" asp-for="StartVertex">
+                    <option value="wybierz">---Wybierz---</option>
+                </select>
+            </div>
+            <div class="form-inline my-3">
+                @*<label asp-for="VertexIndex" class="control-label mr-5 ml-2 my-3"></label>*@
+                <select asp-items="@(ListEnd)"
+                        class="form-control" asp-for="VertexIndex">
+                    <option value="wybierz">---Wybierz---</option>
+                </select>
+            </div>
+            <div class="form-group align-items-center">
+                <input type="submit" value="Dodaj" class="btn btn-secondary" />
+            </div>
+        </form>
+    </div>
+</div>
