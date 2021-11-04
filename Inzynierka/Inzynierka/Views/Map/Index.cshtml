@@ -1,0 +1,38 @@
+﻿<div class="row mx-1" style="overflow: hidden">
+    <div class="col-sm">
+        <div id="map" style="width: 100%; height: calc(100vh - 70px); position: relative;"></div>
+    </div>
+    <div class="col-2"></div>
+</div>
+<script>
+    var lat = [];
+    var lon = [];
+    var desc = [];
+
+    var latlngs = [];
+
+    @foreach (var item in ViewBag.Cities)
+    {
+        @:lat.push("@item.Latitude");
+        @:lon.push("@item.Longitude");
+        @:desc.push("@item.Name");
+    }
+     @foreach (var item in ViewBag.Roads)
+    {
+        @:latlngs.push("@item.LatLong");
+    }
+    var map = L.map('map').setView([51.9594452,19.4572163], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    for (var i = 0; i < lat.length; i++) {
+        L.marker([lat[i], lon[i]]).addTo(map)
+            .bindPopup(desc[i])
+            .openPopup();
+    }
+    for (var i = 0; i < latlngs.length; i++) {
+        var polyline = L.polyline(latlngs[i]).addTo(map);
+        map.fitBounds(polyline.getBounds());
+    }
+</script>
