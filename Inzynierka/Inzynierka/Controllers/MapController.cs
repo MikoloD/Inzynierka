@@ -1,5 +1,6 @@
 ﻿using Database;
 using Database.Model;
+using GraphLibrary;
 using Inzynierka.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,31 +13,25 @@ namespace Inzynierka.Controllers
     public class MapController : Controller
     {
         private readonly DatabaseContext _context;
-        public MapController(DatabaseContext context)
+        private readonly IDijkstra _dijkstra;
+        private readonly MapModel _model;
+
+        public MapController(DatabaseContext context,IDijkstra dijkstra)
         {
             _context = context;
+            _dijkstra = dijkstra;
+            List<City> Cities = _context.Cities.OrderBy(x => x.Name).ToList();
+            _model = new MapModel(Cities);
         }
+        [HttpGet]
         public IActionResult Index()
         {
-            List<City> Cities = _context.Cities.OrderBy(x => x.Name).ToList();
-            ViewBag.Cities = Cities;
-            List <RoadDTO> Roads= new List<RoadDTO>();
-            foreach (var item in _context.Roads.ToList())
-            {
-                float[] points = new float[4];
-                var source = Cities.First(x => x.Id == item.Source);
-                var target = Cities.First(x => x.Id == item.Target);
-                points[0] = source.Latitude;
-                points[1] = source.Longitude;
-                points[2] = target.Latitude;
-                points[3] = target.Longitude;
-                RoadDTO road = new RoadDTO(
-                    item.Id,
-                    points);
-                Roads.Add(road);
-            }
-            ViewBag.Roads = Roads;
-            return View();
+            return View(_model);
+        }
+        [HttpPost]
+        public IActionResult Index(int Source, int Target)
+        {
+            return View(_model);
         }
     }
 }

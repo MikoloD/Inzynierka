@@ -5,11 +5,11 @@ using System.Text;
 
 namespace GraphLibrary
 {
-    public class Edge
+    public interface IEdge
     {
-        public int Id { get; set; }
-        public int Source { get; set; }
-        public int Target { get; set; }
+        public int EdgeId { get; set; }
+        public int SourceNodeId { get; set; }
+        public int TargetNodeId { get; set; }
         public float Wage { get; set; }
     }
 }

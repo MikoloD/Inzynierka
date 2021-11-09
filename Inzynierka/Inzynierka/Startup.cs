@@ -1,4 +1,6 @@
 using Database;
+using GraphLibrary;
+using Inzynierka.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,8 @@ namespace Inzynierka
             services.AddDbContext<DatabaseContext>(options =>
                   options.UseSqlServer(
                       Configuration.GetConnectionString("Connection"),x=>x.MigrationsAssembly("Inzynierka")));
+            services.AddScoped<IGraph,Graph>();
+            services.AddScoped<IDijkstra,Dijkstra>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

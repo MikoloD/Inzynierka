@@ -1,6 +1,7 @@
 ﻿using Database;
 using Database.Model;
 using Microsoft.AspNetCore.Mvc;
+using Inzynierka.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,19 @@ namespace Inzynierka.Controllers
         public AddRoadController(DatabaseContext context)
         {
             _context = context;
-            _cities = _context.Cities.OrderBy(x=>x.Name).ToList();
+            _cities = _context.Cities
+                .OrderBy(x=>x)
+                .ToList();
         }
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.Cities = _cities;
-            return View();
+            return View(new AddRoadModel(_cities));
         }
         [HttpPost]
-        public IActionResult Index(Road road)
+        public IActionResult Index(AddRoadModel road)
         {
-            _context.Roads.Add(road);
+            _context.Roads.Add(road.AddedRoad);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

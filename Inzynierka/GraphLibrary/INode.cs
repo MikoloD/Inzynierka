@@ -4,8 +4,8 @@ using System.Text;
 
 namespace GraphLibrary
 {
-    public class Node
+    public interface INode
     {
-        public int Id { get; set; }
+        public int NodeId { get; set; }
     }
 }
