@@ -1,15 +1,47 @@
 ﻿@model Inzynierka.Models.MapModel
+@{
+    SelectList List = new SelectList(Model.Cities, "NodeId", "Name");
+}
 <div class="row mx-1" style="overflow: hidden">
     <div class="col-sm">
         <div id="map" style="width: 100%; height: calc(100vh - 70px); position: relative;"></div>
     </div>
-    <div class="col-2"></div>
+    <div class="col-1">
+        <form asp-action="Index" asp-route-SourceCityId="SourceCityId" asp-route-TargetCityId="TargetCityId">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CriteriumId" class="control-label"></label>
+                <select asp-items="Html.GetEnumSelectList<MapModel.Criterium>()"
+                        class="form-control" asp-for="CriteriumId">
+                    <option value="wybierz">---Wybierz---</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SourceCityId" class="control-label "></label>
+                <select asp-items="@(List)"
+                        class="form-control" asp-for="SourceCityId">
+                    <option value="wybierz">---Wybierz---</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TargetCityId" class="control-label "></label>
+                <select asp-items="@(List)"
+                        class="form-control" asp-for="TargetCityId">
+                    <option value="wybierz">---Wybierz---</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
 <script>
     var lat = [];
     var lon = [];
     var desc = [];
 
+    var path = [];
     var latlngs = [];
 
     @foreach (var item in Model.Cities)
@@ -18,6 +50,22 @@
         @:lon.push("@item.Longitude");
         @:desc.push("@item.Name");
     }
+    @foreach (var item in Model.Path)
+    {
+        var City = Model.Cities.First(x => x.NodeId == item);
+        @: var latlon = [];
+        @:latlon.push("@City.Latitude");
+        @:latlon.push("@City.Longitude");
+        @:latlngs.push(latlon);
+    }
+    @foreach (var item in Model.DijkstraResult)
+    {
+        @:console.log("@item.SourceNodeId");
+        @:console.log("@item.TargetSorceId");
+        @:console.log("@item.Value");
+        @:path.push("@item.Path");
+        @:console.log(path);
+    }
     var map = L.map('map').setView([51.9594452,19.4572163], 7);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -25,14 +73,10 @@
     }).addTo(map);
     for (var i = 0; i < lat.length; i++) {
         L.marker([lat[i], lon[i]]).addTo(map)
-            .bindPopup(desc[i])
-            .openPopup();
+            .bindPopup(desc[i]);
     }
     var control = L.Routing.control({
-        waypoints: [
-            L.latLng(lat[1], lon[1]),
-            L.latLng(lat[2], lon[2])
-        ],
+        waypoints: latlngs,
         lineOptions: { styles: [{ color: '#242c81', weight: 2 }] },
         fitSelectedRoutes: true,
         draggableWaypoints: false,
@@ -44,7 +88,6 @@
     }).addTo(map);
 
     //zamknij panel boczny
-    //control.hide();
+    control.hide();
 
-    map.removeControl(control);
 </script>

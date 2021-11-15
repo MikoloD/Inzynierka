@@ -19,5 +19,6 @@ namespace Database.Model
         public float Price { get; set; }
         public City SourceNode { get; set; }
         public City TargetNode { get; set; }
+
     }
 }

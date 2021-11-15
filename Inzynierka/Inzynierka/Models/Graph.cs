@@ -23,7 +23,9 @@ namespace Inzynierka.Models
 
             foreach (var item in _context.Roads.ToList())
             {
-                Edges.Add(item);
+                var edge = item;
+                edge.Wage = item.Distance;
+                Edges.Add(edge);
             }             
         } 
     }
