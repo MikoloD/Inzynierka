@@ -3,7 +3,9 @@ using Database.Model;
 using GraphLibrary;
 using Inzynierka.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +17,7 @@ namespace Inzynierka.Controllers
         private readonly DatabaseContext _context;
         private readonly IDijkstra _dijkstra;
         private readonly MapModel _model;
+        private readonly List<Criterium> criteria;
 
         public MapController(DatabaseContext context,IDijkstra dijkstra)
         {
@@ -29,28 +32,25 @@ namespace Inzynierka.Controllers
             return View(_model);
         }
         [HttpPost]
-        public IActionResult Index(int SourceCityId, int TargetCityId, int Criterium)
+        public IActionResult Index(int SourceCityId, int TargetCityId, int CriteriumId)
         {
             _dijkstra.TargetNodeId = TargetCityId;
-            //switch (Criterium)
-            //{
-            //    case 0:
-            //        _dijkstra.Run(SourceCityId);
-            //        break;
-            //    case 1:
-            //        List<float> Times = new List<float>();
-            //        foreach (var item in _context.Roads.ToList())
-            //        {
-            //            float time = (float)item.Distance / (float)item.Speed;
-            //            Times.Add(time);
-            //        }
-            //        _dijkstra.Run(SourceCityId, Times);
-            //        break;
-            //    case 2:
-
-            //        break;
-            //}
-            _dijkstra.Run(SourceCityId);
+            List<float> Wages = null;
+            switch (CriteriumId)
+            {
+                case 1:
+                    break;
+                case 2:
+                    Wages = new List<float>();
+                    foreach (var item in _context.Roads.ToList())
+                    {                    
+                        Wages.Add((float)item.Distance / item.Speed);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            _dijkstra.Run(SourceCityId,Wages);
             _model.Path = _dijkstra.AlghoritmResult[_dijkstra.TargetNodeId].Path;
             _model.DijkstraResult = _dijkstra.AlghoritmResult;
             return View(_model);

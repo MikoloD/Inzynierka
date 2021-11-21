@@ -9,12 +9,7 @@ namespace Inzynierka.Models
 {
     public class MapModel
     {
-        public enum Criterium
-        {
-            Dystans,
-            Czas,
-            Koszt
-        }
+        public List<Criterium> Criteria { get; set; }
         public List<City> Cities { get; set; }
         public int SourceCityId { get; set; }
         public int TargetCityId { get; set; }
@@ -24,6 +19,11 @@ namespace Inzynierka.Models
         public MapModel(List<City> cities)
         {
             Cities = cities;
+            Criteria = new List<Criterium>
+            {
+                new Criterium { CriteriumId = 1, Name = "Dystans" },
+                new Criterium { CriteriumId = 2, Name = "Czas" }
+            };
         }
     }
 }
