@@ -33,7 +33,7 @@ namespace Inzynierka.Controllers
         [HttpPost]
         public IActionResult Index(int SourceCityId, int TargetCityId, int CriteriumId)
         {
-            //_dijkstra.TargetNodeId = TargetCityId;
+            _dijkstra.TargetNodeId = TargetCityId;
             List<float> Wages = null;
             switch (CriteriumId)
             {
