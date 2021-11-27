@@ -7,10 +7,10 @@ using System.Text;
 
 namespace Database.Model
 {
-    public class City : INode
+    public class City : Node
     {
-        [Key]
-        public int NodeId {get; set; }
+        //[Key]
+        //public int NodeId {get; set; }
         public string Name { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }

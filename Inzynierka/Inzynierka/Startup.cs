@@ -34,7 +34,7 @@ namespace Inzynierka
             services.AddDbContext<DatabaseContext>(options =>
                   options.UseSqlServer(
                       Configuration.GetConnectionString("Connection"),x=>x.MigrationsAssembly("Inzynierka")));
-            services.AddScoped<IGraph,Graph>();
+            services.AddScoped<Graph,RoadGraph>();
             services.AddScoped<IDijkstra,Dijkstra>();
         }
 

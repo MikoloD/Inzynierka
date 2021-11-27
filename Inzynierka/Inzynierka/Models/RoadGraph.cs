@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace Inzynierka.Models
 {
-    public class Graph : IGraph
+    public class RoadGraph : Graph
     {
         private readonly DatabaseContext _context;
-        public List<INode> Nodes { get; set; } = new List<INode>();
-        public List<IEdge> Edges { get; set; } = new List<IEdge>();
-        public Graph(DatabaseContext context)
+        public RoadGraph(DatabaseContext context)
         {
             _context = context;
            

@@ -12,10 +12,10 @@ namespace GraphLibrary
         private Dictionary<int, int> NodeIDs { get; set; }
         private float[,] AdjacencyMatrix { get; set; }
         public DijkstraResult[] AlghoritmResult { get; set; }
-        public IGraph Graph { get; set; }
+        public Graph Graph { get; set; }
         public int TargetNodeId { get; set; }
 
-        public Dijkstra(IGraph graph)
+        public Dijkstra(Graph graph)
         {
             Graph = graph;
             int size = Graph.Nodes.Count;
@@ -150,13 +150,12 @@ namespace GraphLibrary
                 }
             }
 
-            WriteSolution(size, startVertex, shortestDistances, parents);
+            WriteSolution(startVertex, shortestDistances, parents);
         }
         // A utility function to print
         // the constructed distances
         // array and shortest paths
-        private void WriteSolution(int size,
-            int startVertex,
+        private void WriteSolution(int startVertex,
             float[] distances,
             int[] parents)
         {

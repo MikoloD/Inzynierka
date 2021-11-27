@@ -6,13 +6,8 @@ using System.Text;
 
 namespace Database.Model
 {
-    public class Road : IEdge
+    public class Road : Edge
     {
-        [Key]
-        public int EdgeId { get;set; }
-        public int SourceNodeId { get; set; }
-        public int TargetNodeId { get; set; }
-        public float Wage { get; set; }
         public string Name { get; set; }
         public int Distance { get; set; }
         public int Speed { get; set; }

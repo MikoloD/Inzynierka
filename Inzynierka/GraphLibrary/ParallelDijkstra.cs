@@ -7,16 +7,16 @@ namespace GraphLibrary
 {
     public class ParallelDijkstra : IDijkstra
     {
-        public IGraph Graph { get; set ; }
+        public Graph Graph { get; set ; }
         public DijkstraResult[] AlghoritmResult { get; set; }
         public int TargetNodeId { get; set; }
-        public ConcurrentBag<INode> Nodes { get; set; }
-        public ConcurrentBag<IEdge> Edges { get; set; }
-        public ParallelDijkstra(IGraph graph)
+        public ConcurrentBag<Node> Nodes { get; set; }
+        public ConcurrentBag<Edge> Edges { get; set; }
+        public ParallelDijkstra(Graph graph)
         {
             Graph = graph;
-            Nodes = new ConcurrentBag<INode>(Graph.Nodes);
-            Edges = new ConcurrentBag<IEdge>(Graph.Edges);
+            Nodes = new ConcurrentBag<Node>(Graph.Nodes);
+            Edges = new ConcurrentBag<Edge>(Graph.Edges);
             int size = Graph.Nodes.Count;
             AlghoritmResult = new DijkstraResult[size];
             for (int i = 0; i < size; i++)

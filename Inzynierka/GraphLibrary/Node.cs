@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace GraphLibrary
 {
-    public interface INode
+    public class Node
     {
+        [Key]
         public int NodeId { get; set; }
     }
 }
