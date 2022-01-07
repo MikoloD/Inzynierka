@@ -1,8 +1,130 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Inzynierka.Models.MapModel
+@{
+    SelectList List = new SelectList(Model.Cities, "NodeId", "Name");
+    SelectList CriteriumSelect = new SelectList(Model.Criteria, "CriteriumId", "Name");
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row mx-1" style="overflow: hidden">
+    <div class="col-sm">
+        <div id="map" style="width: 100%; height: calc(100vh - 70px); position: relative;"></div>
+    </div>
+    <div class="col-2">
+        <form asp-action="Index" asp-route-SourceCityId="SourceCityId" asp-route-TargetCityId="TargetCityId">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Criteria" class="control-label "></label>
+                <select asp-items="@(CriteriumSelect)"
+                        class="form-control" asp-for="CriteriumId">
+                    <option value="wybierz">---Wybierz---</option>
+                </select>
+            </div>
+            <div class="form-check">
+                <input class="price form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="valueChanged()" />
+                <label class="form-check-label" for="flexCheckDefault">
+                    Koszt
+                </label>
+            </div>
+            <div class="form-group priceDiv">
+                <label asp-for="FuelInfo.Usage">Spalanie Pojazdu na 100 km</label>
+                <input asp-for="FuelInfo.Usage" id="fuelUsage" />
+            </div>
+            <div class="form-group priceDiv">
+                <label asp-for="FuelInfo.Price">Cena Paliwa za litr w złotówkach</label>
+                <input asp-for="FuelInfo.Price" id="fuelPrice" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SourceCityId" class="control-label "></label>
+                <select asp-items="@(List)"
+                        class="form-control" asp-for="SourceCityId">
+                    <option value="wybierz">---Wybierz---</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TargetCityId" class="control-label "></label>
+                <select asp-items="@(List)"
+                        class="form-control" asp-for="TargetCityId">
+                    <option value="wybierz">---Wybierz---</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            @if (Model.Result > 0)
+            {
+                <div>
+                    <label>Wynik: @Model.Result @Model.Unit</label>
+                    @if (Model.Cost > 0)
+                    {
+                        <label>Wynik: @Model.Cost złotych</label>
+                    }
+                </div>
+            }
+        </form>
+    </div>
 </div>
+<script>
+
+    window.onload = function hidePrice() {
+        $(".priceDiv").hide();
+        document.getElementById('fuelUsage').value = '0';
+        document.getElementById('fuelPrice').value = '0';
+    }
+    function valueChanged() {
+        if ($('.price').is(":checked"))
+            $(".priceDiv").show();
+        else
+            $(".priceDiv").hide();
+    }
+
+    var lat = [];
+    var lon = [];
+    var desc = [];
+
+    var path = [];
+    var latlngs = [];
+
+    @foreach (var item in Model.Cities)
+    {
+        @:lat.push("@item.Latitude");
+        @:lon.push("@item.Longitude");
+        @:desc.push("@item.Name");
+    }
+    @foreach (var item in Model.Path)
+    {
+        var City = Model.Cities.First(x => x.NodeId == item);
+        @: var latlon = [];
+        @:latlon.push("@City.Latitude");
+        @:latlon.push("@City.Longitude");
+        @:latlngs.push(latlon);
+    }
+    @foreach (var item in Model.DijkstraResult)
+    {
+        @:console.log("@item.SourceNodeId");
+        @:console.log("@item.TargetSorceId");
+        @:console.log("@item.Value");
+        @:path.push("@item.Path");
+        @:console.log(path);
+    }
+    var map = L.map('map').setView([51.9594452,19.4572163], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    for (var i = 0; i < lat.length; i++) {
+        L.marker([lat[i], lon[i]]).addTo(map)
+            .bindPopup(desc[i]);
+    }
+    var control = L.Routing.control({
+        waypoints: latlngs,
+        fitSelectedRoutes: true,
+        draggableWaypoints: false,
+        routeWhileDragging: false,
+        createMarker: function () { return null; },
+        lineOptions: {
+        addWaypoints: false
+        }
+    }).addTo(map);
+
+    //zamknij panel boczny
+    control.hide();
+
+</script>
