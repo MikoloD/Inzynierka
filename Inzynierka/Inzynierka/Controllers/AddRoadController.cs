@@ -26,10 +26,10 @@ namespace Inzynierka.Controllers
             return View(new AddRoadModel(_cities));
         }
         [HttpPost]
-        public IActionResult Index(AddRoadModel road)
+        public async Task<IActionResult> Index(AddRoadModel road)
         {
             _context.Roads.Add(road.AddedRoad);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }

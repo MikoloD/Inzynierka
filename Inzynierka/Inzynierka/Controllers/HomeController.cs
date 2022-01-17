@@ -47,7 +47,7 @@ namespace Inzynierka.Controllers
                     _model.Unit = "h";
                     break;
             }
-            _dijkstra.Run(SourceCityId, Wages);
+            _dijkstra.Run(SourceCityId,Wages);
             _model.FillModel(_dijkstra, fuelInfo);
             return View(_model);
         }

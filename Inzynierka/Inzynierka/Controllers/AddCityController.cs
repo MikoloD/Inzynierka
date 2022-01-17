@@ -21,10 +21,10 @@ namespace Inzynierka.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Index(City city)
+        public async Task<IActionResult> Index(City city)
         {
             _context.Cities.Add(city);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }

@@ -52,6 +52,7 @@ namespace Inzynierka.Models
                 float singleRoadCost = (FuelInfo.Usage / 100) * road.Distance * FuelInfo.Price + road.Price;
                 Cost += singleRoadCost;
             }
+            Cost = (float)Math.Round(Cost, 2);
         }
     }
 }

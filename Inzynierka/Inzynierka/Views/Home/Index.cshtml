@@ -54,7 +54,9 @@
                     <label>Wynik: @Model.Result @Model.Unit</label>
                     @if (Model.Cost > 0)
                     {
-                        <label>Wynik: @Model.Cost złotych</label>
+                        <label>Koszt: @Model.Cost złotych</label>
+                        <label>Spalanie na 100 km: @Model.FuelInfo.Usage litrów</label>
+                        <label>Cena Paliwa za 1 litr: @Model.FuelInfo.Price złotych</label>
                     }
                 </div>
             }
