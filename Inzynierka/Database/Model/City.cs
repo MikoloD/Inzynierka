@@ -9,7 +9,7 @@ namespace Database.Model
 {
     public class City : Node
     {
-        [Display(Name = "Nazwa")]
+        [Display(Name = "Nazwa Miasta")]
         public string Name { get; set; }
         [Display(Name = "Szerokość geograficzna")]
         public float Latitude { get; set; }
