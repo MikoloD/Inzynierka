@@ -46,7 +46,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Oblicz" class="btn btn-primary" />
             </div>
             @if (Model.Result > 0)
             {
@@ -97,14 +97,6 @@
         @:latlon.push("@City.Latitude");
         @:latlon.push("@City.Longitude");
         @:latlngs.push(latlon);
-    }
-    @foreach (var item in Model.DijkstraResult)
-    {
-        @:console.log("@item.SourceNodeId");
-        @:console.log("@item.TargetSorceId");
-        @:console.log("@item.Value");
-        @:path.push("@item.Path");
-        @:console.log(path);
     }
     var map = L.map('map').setView([51.9594452,19.4572163], 7);
 

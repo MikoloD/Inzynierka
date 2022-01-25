@@ -7,7 +7,7 @@ namespace GraphLibrary
     public class DijkstraResult
     {
         public int SourceNodeId { get; set; }
-        public int TargetSorceId { get; set; }
+        public int TargetNodeId { get; set; }
         public float Value { get; set; }
         public List<int> Path { get; set; } = new List<int>();
     }

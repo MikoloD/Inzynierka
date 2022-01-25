@@ -3,6 +3,7 @@ using Database.Model;
 using GraphLibrary;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,9 +12,12 @@ namespace Inzynierka.Models
     public class MapModel
     {
         private readonly DatabaseContext _context;
+        [Display(Name = "Kryterium")]
         public List<Criterium> Criteria { get; set; }
         public List<City> Cities { get; set; }
+        [Display(Name = "Miasto Startu")]
         public int SourceCityId { get; set; }
+        [Display(Name = "Misto Zakończenia")]
         public int TargetCityId { get; set; }
         public int CriteriumId { get; set; }
         public DijkstraResult[] DijkstraResult { get; set; } = new DijkstraResult[0];

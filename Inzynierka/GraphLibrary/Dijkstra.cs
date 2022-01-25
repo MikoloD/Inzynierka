@@ -25,6 +25,7 @@ namespace GraphLibrary
                 AlghoritmResult[i] = new DijkstraResult();
             }
         }
+        //Funkcja spajająca Id
         private void CreateNodeDictionary(int size)
         {
             NodeIDs = new Dictionary<int, int>();
@@ -35,6 +36,7 @@ namespace GraphLibrary
                     TargetNodeId = i;
             }
         }
+        //Funkcja tworząca z Grafu macierz odległości
         private void CreateAdjacencyMatrix(int size, List<float> WageList)
         {
             if (WageList != null)
@@ -55,11 +57,7 @@ namespace GraphLibrary
             }
         }
 
-        // Function that implements Dijkstra's
-        // single source shortest path
-        // algorithm for a graph represented
-        // using adjacency matrix
-        // representation
+        // funkcja implementująca algorytm dijkstry kozystającego z macierzy odległości
         void IDijkstra.Run(int startVertex, List<float> WageList)
         {
             int size = Graph.Nodes.Count;
@@ -70,18 +68,13 @@ namespace GraphLibrary
 
             int nVertices = AdjacencyMatrix.GetLength(0);
 
-            // shortestDistances[i] will hold the
-            // shortest distance from src to i
+            // najkrótsza ścieżka ze źródla do wierzchołka i znajduje się w shortestDistances[i]
             float[] shortestDistances = new float[nVertices];
 
-            // added[i] will true if vertex i is
-            // included / in shortest path tree
-            // or shortest distance from src to
-            // i is finalized
+            // added[i] będzie prawdziwe jeżeli krawędź i będzie zawarta w drzewie najkrótszej drogi
+            // lub najkrótsza odległość ze źródła do i będzie obliczona.
             bool[] added = new bool[nVertices];
 
-            // Initialize all distances as
-            // INFINITE and added[] as false
             for (int vertexIndex = 0; vertexIndex < nVertices;
                                                 vertexIndex++)
             {
@@ -89,28 +82,23 @@ namespace GraphLibrary
                 added[vertexIndex] = false;
             }
 
-            // Distance of source vertex from
-            // itself is always 0
+            //Odległość wierzchołka od samego siebie zawsze wynosi 0
             shortestDistances[startVertex] = 0;
 
             // Parent array to store shortest
             // path tree
+            // tablica rodziców w dzrewie najkrótsze ścieżki
             int[] parents = new int[nVertices];
 
-            // The starting vertex does not
-            // have a parent
+            //startowa krawędź nie posiada rodzica
             parents[startVertex] = NO_PARENT;
 
-            // Find shortest path for all
-            // vertices
+            // znalezienie najkrótszej ścieżki dla wszystkich rodziców
             for (int i = 1; i < nVertices; i++)
             {
 
-                // Pick the minimum distance vertex
-                // from the set of vertices not yet
-                // processed. nearestVertex is
-                // always equal to startNode in
-                // first iteration.
+                // nearestVertex, jest równa -1 w pierwsze iteracji 
+                // Wybierana zostaje nakrótsza wartośc wagi krawędzi ze zbioru dostępnych krawędzi
                 int nearestVertex = -1;
                 float shortestDistance = float.MaxValue;
                 for (int vertexIndex = 0;
@@ -126,13 +114,10 @@ namespace GraphLibrary
                     }
                 }
 
-                // Mark the picked vertex as
-                // processed
+                //Zaznacz najbliższą krawędź jako obecnie przetwarzaną
                 added[nearestVertex] = true;
 
-                // Update dist value of the
-                // adjacent vertices of the
-                // picked vertex.
+                //Aktualizacja obecnej najkrótszej odległości
                 for (int vertexIndex = 0;
                         vertexIndex < nVertices;
                         vertexIndex++)
@@ -152,9 +137,7 @@ namespace GraphLibrary
 
             WriteSolution(startVertex, shortestDistances, parents);
         }
-        // A utility function to print
-        // the constructed distances
-        // array and shortest paths
+        //Funkcja zapisująca wynik
         private void WriteSolution(int startVertex,
             float[] distances,
             int[] parents)
@@ -168,21 +151,18 @@ namespace GraphLibrary
                 if (vertexIndex != startVertex)
                 {
                          AlghoritmResult[vertexIndex].SourceNodeId = NodeIDs[startVertex];
-                         AlghoritmResult[vertexIndex].TargetSorceId = NodeIDs[vertexIndex];
+                         AlghoritmResult[vertexIndex].TargetNodeId = NodeIDs[vertexIndex];
                          AlghoritmResult[vertexIndex].Value = distances[vertexIndex];
                     WritePath(AlghoritmResult[vertexIndex].Path,vertexIndex, parents);
                 }
             }
         }
 
-        // Function to print shortest path
-        // from source to currentVertex
-        // using parents array
+        //Funkcja zapisująca odwiedzone Miasta
         private void WritePath(List<int> Path,int currentVertex, int[] parents)
         {
 
-            // Base case : Source node has
-            // been processed
+            // Base case : Odwiedzono wierzchołek źródła
             if (currentVertex == NO_PARENT)
             {
                 return;

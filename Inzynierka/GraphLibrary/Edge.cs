@@ -10,8 +10,11 @@ namespace GraphLibrary
     {
         [Key]
         public int EdgeId { get; set; }
+        [Display(Name = "Początek")]
         public int SourceNodeId { get; set; }
+        [Display(Name = "Koniec")]
         public int TargetNodeId { get; set; }
+        [Display(Name = "Waga")]
         public float Wage { get; set; }
     }
 }
