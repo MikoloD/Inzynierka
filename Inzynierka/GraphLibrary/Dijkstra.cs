@@ -85,8 +85,6 @@ namespace GraphLibrary
             //Odległość wierzchołka od samego siebie zawsze wynosi 0
             shortestDistances[startVertex] = 0;
 
-            // Parent array to store shortest
-            // path tree
             // tablica rodziców w dzrewie najkrótsze ścieżki
             int[] parents = new int[nVertices];
 
